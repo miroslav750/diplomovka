@@ -164,7 +164,7 @@ def get_most_patients():
                        FROM stat.basic
                        GROUP BY city
                        ORDER BY count(*) desc
-                       LIMIT 10""")
+                       LIMIT 100""")
         rows = cur.fetchall()
 
         output = {"number of patients": []}
