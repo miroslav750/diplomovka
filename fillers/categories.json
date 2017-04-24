@@ -1,0 +1,12 @@
+{ "short":["10","5","15","10min","5min","15min","shorter"],
+  "middle":["20","25","30","35","20min","25min","30min","35min"],
+  "long":["40","45","50","55","60","40min","45min","50min","55min","60min"],
+  "radiology":["rtg","usg","mr","ct","pet","gg"],
+  "examination":["examination","entry","license","driver"],
+  "special":["custom","leisure","urgent","calendar","study"],
+  "paperwork":["financial","paper","formular"],
+  "uncategorized":["color","treat","treatment"]
+}
+
+
+
