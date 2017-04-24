@@ -93,14 +93,6 @@ cur = conn.cursor()
 #     loading((len(rows)), i)
 # conn.commit()
 
-# # creation of dictionary for categorization
-# f = open('categories.txt','w')
-# cur.execute(""" SELECT distinct(product_en) FROM stat.products""")
-# rows = cur.fetchall()
-# for row in rows:
-#     if row[0] is not None:
-#         f.write(row[0] + "\n")
-# f.close()
 
 # # CATEGORIZATION
 # json_data = open('categories.json').read()

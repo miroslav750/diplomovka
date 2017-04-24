@@ -32,7 +32,7 @@ def get_users():
         for row in rows:
             output['patients'].append(
                 {
-                    "patient_id": row[0],
+                    "patient ID": row[0],
                     "forename": row[1],
                     "surname": row[2]
                 }
@@ -51,12 +51,12 @@ def get_users(patient_id):
                        FROM stat.basic WHERE patient_id = {} """.format(patient_id))
         rows = cur.fetchall()
 
-        output = {"patients": []}
+        output = {"patient": []}
 
         for row in rows:
-            output['patients'].append(
+            output['patient'].append(
                 {
-                    "patient_id": int(row[0]),
+                    "patient ID": int(row[0]),
                     "forename": edit(row[1]),
                     "surname": edit(row[2]),
                     "city":edit(row[3]),
@@ -69,6 +69,63 @@ def get_users(patient_id):
         return output
     except:
         return HTTPResponse(status=400, body=def_error)
+
+# vrati zakladne udaje o doktorovi podla jeho ID
+@route("/doctor/<doctor_id>", method='POST')
+def get_users(doctor_id):
+    cur = conn.cursor()
+    try:
+        cur.execute("""SELECT doctor_id, doctor_name, postal_code, latitude, longitude 
+                       FROM stat.doctors WHERE doctor_id = {} """.format(doctor_id))
+        rows = cur.fetchall()
+
+        output = {"doctor": []}
+
+        for row in rows:
+            output['doctor'].append(
+                {
+                    "doctor ID": int(row[0]),
+                    "doctor name": edit(row[1]),
+                    "postal_code": edit(row[2]),
+                    "latitude": float(row[3]),
+                    "longitude": float(row[4])
+                }
+            )
+        return output
+    except:
+        return HTTPResponse(status=400, body=def_error)
+
+# vrati pacientove konyultacie, faktury, platby podla jeho ID
+@route("/payments/<patient_id>", method='POST')
+def get_users(patient_id):
+    cur = conn.cursor()
+    # try:
+    cur.execute("""SELECT patient_id, invoice_id, consultation_id, created_date, doctor_id, invoice_author, payment_method, price, paid, to_pay
+                   FROM stat.payments
+                   WHERE patient_id = {} """.format(patient_id))
+    rows = cur.fetchall()
+
+    output = {"payments": []}
+
+    for row in rows:
+        output['payments'].append(
+            {
+                "patient ID": int(row[0]),
+                "invoice ID": int(row[1]),
+                "consultation ID": int(row[2]),
+                "created date": str(row[3]),
+                "doctorID": int(row[4]),
+                "invoice author": str(row[5]),
+                "payment method": str(row[6]),
+                "PRICE": float(row[7]),
+                "paid": float(row[8]),
+                "to pay": float(row[9])
+            }
+        )
+    return output
+    # except:
+    #     return HTTPResponse(status=400, body=def_error)
+
 
 # komplet request vrati vsetko potrebne pre katarininu cast DP
 # KATARINA
