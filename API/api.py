@@ -11,6 +11,8 @@ except:
 # defininicia chybovych hlasok
 def_error = "ospravedlnujeme sa nastala chyba"
 
+# - - - BASIC REQUESTY - - -
+
 # vrati yakladne udaje o pacientovi po [offset] zaznamov
 @route("/patients", method='POST')
 def get_users():
@@ -44,7 +46,7 @@ def get_users():
 
 # vrati zakladne udaje o pacientovi podla jeho ID
 @route("/patient/<patient_id>", method='POST')
-def get_users(patient_id):
+def get_user(patient_id):
     cur = conn.cursor()
     try:
         cur.execute("""SELECT patient_id, forename, surname, city, street, postal_code, latitude, longitude 
@@ -72,7 +74,7 @@ def get_users(patient_id):
 
 # vrati zakladne udaje o doktorovi podla jeho ID
 @route("/doctor/<doctor_id>", method='POST')
-def get_users(doctor_id):
+def get_doctors(doctor_id):
     cur = conn.cursor()
     try:
         cur.execute("""SELECT doctor_id, doctor_name, postal_code, latitude, longitude 
@@ -95,36 +97,88 @@ def get_users(doctor_id):
     except:
         return HTTPResponse(status=400, body=def_error)
 
-# vrati pacientove konyultacie, faktury, platby podla jeho ID
+# vrati pacientove konzultacie, faktury, platby podla jeho ID
 @route("/payments/<patient_id>", method='POST')
-def get_users(patient_id):
+def get_payments(patient_id):
     cur = conn.cursor()
-    # try:
-    cur.execute("""SELECT patient_id, invoice_id, consultation_id, created_date, doctor_id, invoice_author, payment_method, price, paid, to_pay
-                   FROM stat.payments
-                   WHERE patient_id = {} """.format(patient_id))
-    rows = cur.fetchall()
+    try:
+        cur.execute("""SELECT patient_id, invoice_id, consultation_id, created_date, doctor_id, invoice_author, payment_method, price, paid, to_pay
+                       FROM stat.payments
+                       WHERE patient_id = {} """.format(patient_id))
+        rows = cur.fetchall()
 
-    output = {"payments": []}
+        output = {"payments": []}
 
-    for row in rows:
-        output['payments'].append(
-            {
-                "patient ID": int(row[0]),
-                "invoice ID": int(row[1]),
-                "consultation ID": int(row[2]),
-                "created date": str(row[3]),
-                "doctorID": int(row[4]),
-                "invoice author": str(row[5]),
-                "payment method": str(row[6]),
-                "PRICE": float(row[7]),
-                "paid": float(row[8]),
-                "to pay": float(row[9])
-            }
-        )
-    return output
-    # except:
-    #     return HTTPResponse(status=400, body=def_error)
+        for row in rows:
+            output['payments'].append(
+                {
+                    "patient ID": int(row[0]),
+                    "invoice ID": int(row[1]),
+                    "consultation ID": int(row[2]),
+                    "created date": str(row[3]),
+                    "doctorID": int(row[4]),
+                    "invoice author": str(row[5]),
+                    "payment method": str(row[6]),
+                    "PRICE": float(row[7]),
+                    "paid": float(row[8]),
+                    "to pay": float(row[9])
+                }
+            )
+        return output
+    except:
+        return HTTPResponse(status=400, body=def_error)
+
+# vrati produkt podla jeho ID
+@route("/product/<product_id>", method='POST')
+def get_products(product_id):
+    cur = conn.cursor()
+    try:
+        cur.execute("""SELECT distinct(product_id), product, product_en, category
+                       FROM stat.products 
+                       WHERE product_id = {} """.format(product_id))
+        rows = cur.fetchall()
+
+        output = {"product": []}
+
+        for row in rows:
+            output['product'].append(
+                {
+                    "product ID": int(row[0]),
+                    "product": edit(row[1]),
+                    "product (EN)": edit(row[2]),
+                    "category": edit(row[3])
+                }
+            )
+        return output
+    except:
+        return HTTPResponse(status=400, body=def_error)
+
+# - - - SPECIAL REQUESTY - - -
+
+# vrati pocet pacientov pre jednotlive mesta
+@route("/most_patients", method='POST')
+def get_most_patients():
+    cur = conn.cursor()
+    try:
+        cur.execute("""SELECT city, count(*)
+                       FROM stat.basic
+                       GROUP BY city
+                       ORDER BY count(*) desc
+                       LIMIT 10""")
+        rows = cur.fetchall()
+
+        output = {"number of patients": []}
+
+        for row in rows:
+            output['number of patients'].append(
+                {
+                    "CITY": edit(row[0]),
+                    "number of patients": int(row[1])
+                }
+            )
+        return output
+    except:
+        return HTTPResponse(status=400, body=def_error)
 
 
 # komplet request vrati vsetko potrebne pre katarininu cast DP
