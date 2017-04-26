@@ -14,19 +14,19 @@ def_error = "ospravedlnujeme sa nastala chyba"
 # - - - BASIC REQUESTY - - -
 
 # vrati yakladne udaje o pacientovi po [offset] zaznamov
-@route("/patients", method='POST')
-def get_users():
+@route("/patients/<limit>/<offset>", method='POST')
+def get_users(limit, offset):
     try:
-        offset = request.query.offset
         offset = int(offset)
+        limit = int(limit)
     except :
-        return HTTPResponse(status=400, body="nespravne zadany OFFSET, zadajte cislo")
+        return HTTPResponse(status=400, body="nespravne zadany OFFSET alebo LIMIT, zadajte cisla")
 
     cur = conn.cursor()
     try:
         cur.execute(
-            """SELECT patient_id, forename, surname from stat.basic ORDER BY patient_id ASC LIMIT 100 OFFSET {}""".format(
-                offset))
+            """SELECT patient_id, forename, surname from stat.basic ORDER BY patient_id ASC LIMIT {0} OFFSET {1}""".format(
+                limit, offset))
         rows = cur.fetchall()
 
         output = {"patients": []}
@@ -87,7 +87,7 @@ def get_doctors(doctor_id):
             output['doctor'].append(
                 {
                     "doctor ID": int(row[0]),
-                    "doctor name": edit(row[1]),
+                    "doctor name": delete_apostrophe(row[1]),
                     "postal_code": edit(row[2]),
                     "latitude": float(row[3]),
                     "longitude": float(row[4])
@@ -164,7 +164,7 @@ def get_most_patients():
                        FROM stat.basic
                        GROUP BY city
                        ORDER BY count(*) desc
-                       LIMIT 100""")
+                       LIMIT 100 """)
         rows = cur.fetchall()
 
         output = {"number of patients": []}
