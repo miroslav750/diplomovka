@@ -6,7 +6,7 @@ Suite Teardown    Close All Browsers
 
 *** Test Cases ***
 
-Otvorenie prehliadaca a vykon
+Vykonanie requestu
     make request    mostPatients
 
 test na result code 200
