@@ -6,7 +6,7 @@ Suite Teardown    Close All Browsers
 
 *** Test Cases ***
 
-Otvorenie prehliadaca a vykonanie requestupaymentspen
+Vykonanie requestupaymentspen
     make request    payments
 
 test na result code 200

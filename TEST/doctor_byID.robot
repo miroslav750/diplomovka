@@ -6,7 +6,7 @@ Suite Teardown    Close All Browsers
 
 *** Test Cases ***
 
-Otvorenie prehliadaca a vykonanie requestu
+Vykonanie requestu
     make request    doctorById
 
 test na result code 200
