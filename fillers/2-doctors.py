@@ -3,7 +3,6 @@ import time
 from resources import select, update, edit
 from geopy.geocoders import ArcGIS
 
-
 start_time = time.time()
 from resources import loading
 
@@ -31,10 +30,11 @@ print "\nCREATE stat.doctors: \n"
 for i, item in enumerate(rows):
     doctor_id = item[0]
     name = "'" + item[1] + ' ' + item[2] + "'"
-    name =  edit(name)
+    name = edit(name)
     postal_code = item[3]
     if postal_code is not None:
-        cur.execute("INSERT INTO stat.doctors (doctor_id, doctor_name, postal_code) VALUES ('{0}','{1}','{2}')".format(doctor_id,name,postal_code))
+        cur.execute("INSERT INTO stat.doctors (doctor_id, doctor_name, postal_code) VALUES ('{0}','{1}','{2}')".format(
+            doctor_id, name, postal_code))
     # nepotrebne ale len pre moje info ako ide vkladanie
     loading((len(rows)), i)
 
@@ -75,4 +75,3 @@ while i <= maximum:
 
 conn.commit()
 print("\n\n\n--- %s seconds ---" % (time.time() - start_time))
-

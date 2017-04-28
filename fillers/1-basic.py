@@ -27,7 +27,8 @@ cur.execute("""CREATE TABLE stat.basic (
             """)
 
 # naplnenie tabulky, udaje o pacientovi z PATIENTS
-rows = select(cur, 'patient_id, forename, surname, address_city, address_street, address_postalcode', 'anonymized.patients')
+rows = select(cur, 'patient_id, forename, surname, address_city, address_street, address_postalcode',
+              'anonymized.patients')
 print "CREATE basic: \n"
 
 for i, item in enumerate(rows):
@@ -49,8 +50,6 @@ for i, item in enumerate(rows):
                 """.format(patient_id, forename, surname, city, street, postal_code))
     # nepotrebne ale len pre moje info ako ide vkladanie
     loading((len(rows)), i)
-
-
 
 conn.commit()
 print("\n\n\n--- %s seconds ---" % (time.time() - start_time))

@@ -29,5 +29,4 @@ for i, item in enumerate(rows):
     # nepotrebne ale len pre moje info ako ide vkladanie
     loading((len(rows)), i)
 
-
 conn.commit()

@@ -22,17 +22,20 @@ def update(cur, table, set_param, set_val, where_param, where_val):
     WHERE {3} = {4}
     """.format(table, set_param, set_val, where_param, where_val))
 
+
 def edit(string):
     if "'" in str(string):
         return string.replace("'", "''")
     else:
         return string
 
+
 def delete_apostrophe(string):
     if "'" in str(string):
         return string.replace("'", "")
     else:
         return string
+
 
 def diacritics(text):
     text = str(text)
@@ -72,4 +75,3 @@ def loading(full, actual):
         print 'vlozenych 90 %'
     elif int(round(full * 0.99)) == actual:
         print 'vlozenych 100 % ---> {0} zaznamov'.format(full)
-

@@ -52,7 +52,6 @@ for i, item in enumerate(rows):
 
 conn.commit()
 
-
 # update tabulky payments o patient_id
 cur.execute("""
                 SELECT invoices.invoice_id, invoices.patient_id, stat.payments.invoice_id, invoices.payment_method
@@ -77,7 +76,6 @@ for i, item in enumerate(rows):
     loading((len(rows)), i)
 
 conn.commit()
-
 
 # update tabulky payments o invoice_author
 cur.execute("""
@@ -161,7 +159,6 @@ for i, item in enumerate(rows):
 
     # nepotrebne ale len pre moje info ako ide vkladanie
     loading((len(rows)), i)
-
 
 # update payments o to_pay
 cur.execute("""update stat.payments SET to_pay = price - paid """)
