@@ -1,9 +1,7 @@
 import unicodedata
 
-
-# TODO: funkcie dat do externeho suboru
 # own basic SELECT function
-# use: select(curson, columns_to_select, table_name (can add WHERE condition too))
+# use: select(cursor, columns_to_select, table_name (can add WHERE condition too))
 def select(cur, columns, tables):
     cur.execute("""
         SELECT {0}
@@ -14,7 +12,7 @@ def select(cur, columns, tables):
 
 
 # own UPDATE function
-# use: update(curson, table_namne, update_parameter, update_value, where_condition_param, where_condition_value)
+# use: update(cursor, table_name, update_parameter, update_value, where_condition_param, where_condition_value)
 def update(cur, table, set_param, set_val, where_param, where_val):
     cur.execute("""
     UPDATE {0}
@@ -39,10 +37,10 @@ def delete_apostrophe(string):
 
 def diacritics(text):
     text = str(text)
-    input = unicode(text, 'utf-8')
-    input = unicodedata.normalize('NFKD', input)
+    vstup = unicode(text, 'utf-8')
+    vstup = unicodedata.normalize('NFKD', vstup)
     output = ''
-    for c in input:
+    for c in vstup:
         if not unicodedata.combining(c):
             output += c
     return output

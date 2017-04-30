@@ -1,5 +1,5 @@
 import psycopg2
-from resources import select, update, loading, edit
+from resources import select, loading, edit
 import time
 
 start_time = time.time()
