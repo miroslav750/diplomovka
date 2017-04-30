@@ -2,7 +2,7 @@ import psycopg2
 import time
 
 start_time = time.time()
-from resources import loading, select, update, edit
+from resources import loading, select, update, delete_apostrophe
 
 # connection to database
 try:
@@ -26,7 +26,7 @@ rows = cur.fetchall()
 print "\n1. UPDATE stat.basic, adding coordinates"
 
 for i, item in enumerate(rows):
-    postal1 = edit(item[0])
+    postal1 = delete_apostrophe(item[0])
     print  postal1
     x = item[2]
     y = item[3]

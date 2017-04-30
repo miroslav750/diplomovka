@@ -4,7 +4,7 @@ from geopy.geocoders import ArcGIS
 from geopy.exc import GeocoderTimedOut
 
 start_time = time.time()
-from resources import update, select, edit, delete_apostrophe
+from resources import update, select, delete_apostrophe, delete_apostrophe
 
 # connection to database
 try:
@@ -38,7 +38,7 @@ while True:
             print rows[count]
             try:
                 postal_code = rows[count][0]
-                postal_code = edit(postal_code)
+                postal_code = delete_apostrophe(postal_code)
                 location = geolocator.geocode(postal_code)
                 if location is not None:
                     latitude = location.latitude

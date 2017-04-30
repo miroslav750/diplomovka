@@ -1,5 +1,5 @@
 import psycopg2
-from resources import select, loading, edit
+from resources import select, loading, delete_apostrophe
 import time
 
 start_time = time.time()
@@ -33,15 +33,15 @@ print "CREATE basic: \n"
 
 for i, item in enumerate(rows):
     patient_id = item[0]
-    forename = edit(item[1])
-    surname = edit(item[2])
-    city = edit(item[3])
+    forename = delete_apostrophe(item[1])
+    surname = delete_apostrophe(item[2])
+    city = delete_apostrophe(item[3])
     if city is None or city == 'None':
         city = ""
-    street = edit(item[4])
+    street = delete_apostrophe(item[4])
     if street is None or street == 'None':
         street = ""
-    postal_code = edit(item[5])
+    postal_code = delete_apostrophe(item[5])
     if postal_code is None or postal_code == 'None':
         postal_code = ""
     cur.execute("""

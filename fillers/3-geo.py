@@ -2,7 +2,7 @@ import psycopg2
 import time
 
 start_time = time.time()
-from resources import loading, select, update, edit
+from resources import loading, select, update, delete_apostrophe
 
 # connection to database
 try:
@@ -23,7 +23,7 @@ cur.execute("""CREATE TABLE stat.GEO
 cur.execute("select distinct postal_code from stat.basic")
 rows = cur.fetchall()
 for i, item in enumerate(rows):
-    postal_code = edit(item[0])
+    postal_code = delete_apostrophe(item[0])
     if postal_code is not None:
         cur.execute("INSERT INTO stat.GEO (postal_code) VALUES ('{0}')".format(postal_code))
     # nepotrebne ale len pre moje info ako ide vkladanie

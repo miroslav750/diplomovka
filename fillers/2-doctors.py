@@ -1,6 +1,6 @@
 import psycopg2
 import time
-from resources import select, update, edit
+from resources import select, update, delete_apostrophe
 from geopy.geocoders import ArcGIS
 
 start_time = time.time()
@@ -30,7 +30,7 @@ print "\nCREATE stat.doctors: \n"
 for i, item in enumerate(rows):
     doctor_id = item[0]
     name = "'" + item[1] + ' ' + item[2] + "'"
-    name = edit(name)
+    name = delete_apostrophe(name)
     postal_code = item[3]
     if postal_code is not None:
         cur.execute("INSERT INTO stat.doctors (doctor_id, doctor_name, postal_code) VALUES ('{0}','{1}','{2}')".format(

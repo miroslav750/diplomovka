@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import psycopg2, time, json, re
-from resources import loading, select, update, edit, diacritics, delete_apostrophe
+from resources import loading, select, update, delete_apostrophe, diacritics, delete_apostrophe
 from googletrans import Translator
 
 translator = Translator()
@@ -47,7 +47,7 @@ rows = select(cur, 'product_id, product_name', 'shop_product')
 print "\n1. UPDATE stat.products: \n"
 for i, item in enumerate(rows):
     product_id = item[0]
-    product = edit(item[1])
+    product = delete_apostrophe(item[1])
     if product_id is not None:
         cur.execute("""update stat.products SET product = '{0}' where product_id = {1}""".format(product, product_id))
     # nepotrebne ale len pre moje info ako ide vkladanie
@@ -68,7 +68,7 @@ rows = cur.fetchall()
 print "\n2. UPDATE stat.products: \n"
 for i, item in enumerate(rows):
     consultation_id = item[5]
-    product = edit(item[0])
+    product = delete_apostrophe(item[0])
     if product_id is not None:
         cur.execute(
             """update stat.products SET product = CONCAT(product,', {0}') where consultation_id = {1}""".format(product,

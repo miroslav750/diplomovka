@@ -8,7 +8,7 @@ def select(cur, columns, tables):
         FROM {1}
         """.format(columns, tables))
     rows = cur.fetchall()
-    return rows  # TODO ako pridam nepovinny parameter where ?
+    return rows
 
 
 # own UPDATE function
@@ -21,16 +21,9 @@ def update(cur, table, set_param, set_val, where_param, where_val):
     """.format(table, set_param, set_val, where_param, where_val))
 
 
-def edit(string):
-    if "'" in str(string):
-        return string.replace("'", "''")
-    else:
-        return string
-
-
 def delete_apostrophe(string):
     if "'" in str(string):
-        return string.replace("'", "")
+        return string.replace("'", "''")
     else:
         return string
 

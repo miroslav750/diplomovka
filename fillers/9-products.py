@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import psycopg2, time, json, re
-from resources import loading, select, update, edit, diacritics, delete_apostrophe
+from resources import loading, select, update, delete_apostrophe, diacritics, delete_apostrophe
 from googletrans import Translator
 
 translator = Translator()
@@ -22,7 +22,7 @@ dictionary = json.loads(json_data)
 cur.execute(""" SELECT distinct(product_en) FROM stat.products""")
 rows = cur.fetchall()
 for row in rows:
-    product_en = edit(row[0])
+    product_en = delete_apostrophe(row[0])
     category = [cat for cat in dictionary if
                 any(marker in re.findall(r'[a-z0-9]+', product_en) for marker in dictionary[cat])]
     if category == []:

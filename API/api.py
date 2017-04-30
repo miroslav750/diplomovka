@@ -1,6 +1,6 @@
 from bottle import route, run, request, HTTPResponse
 import psycopg2
-from fillers.resources import delete_apostrophe, edit
+from resources import delete_apostrophe
 
 # connection to database
 try:
