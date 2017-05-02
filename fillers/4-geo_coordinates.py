@@ -57,11 +57,5 @@ while True:
             except GeocoderTimedOut:
                 print "- - ERROR - -"
     conn.commit()
-    # print 'teraz pockajte 30 min'
-    # time.sleep(600)
-    # print 'este 20  min'
-    # time.sleep(600)
-    # print 'este 10 min'
-    # time.sleep(600)
     time.sleep(30)
     print 'DALSIA ITERACIA'

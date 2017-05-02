@@ -23,7 +23,7 @@ def update(cur, table, set_param, set_val, where_param, where_val):
 
 def delete_apostrophe(string):
     if "'" in str(string):
-        return string.replace("'", "''")
+        return string.replace("'", "")
     else:
         return string
 

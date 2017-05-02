@@ -59,11 +59,11 @@ def get_user(patient_id):
             output['patient'].append(
                 {
                     "patient ID": int(row[0]),
-                    "forename": edit(row[1]),
-                    "surname": edit(row[2]),
-                    "city":edit(row[3]),
-                    "street":edit(row[4]),
-                    "postal_code":edit(row[5]),
+                    "forename": delete_apostrophe(row[1]),
+                    "surname": delete_apostrophe(row[2]),
+                    "city":delete_apostrophe(row[3]),
+                    "street":delete_apostrophe(row[4]),
+                    "postal_code":delete_apostrophe(row[5]),
                     "latitude":float(row[6]),
                     "longitude":float(row[7])
                 }
@@ -88,7 +88,7 @@ def get_doctors(doctor_id):
                 {
                     "doctor ID": int(row[0]),
                     "doctor name": delete_apostrophe(row[1]),
-                    "postal_code": edit(row[2]),
+                    "postal_code": delete_apostrophe(row[2]),
                     "latitude": float(row[3]),
                     "longitude": float(row[4])
                 }
@@ -144,9 +144,9 @@ def get_products(product_id):
             output['product'].append(
                 {
                     "product ID": int(row[0]),
-                    "product": edit(row[1]),
-                    "product (EN)": edit(row[2]),
-                    "category": edit(row[3])
+                    "product": delete_apostrophe(row[1]),
+                    "product (EN)": delete_apostrophe(row[2]),
+                    "category": delete_apostrophe(row[3])
                 }
             )
         return output
@@ -172,7 +172,7 @@ def get_most_patients():
         for row in rows:
             output['number of patients'].append(
                 {
-                    "CITY": edit(row[0]),
+                    "CITY": delete_apostrophe(row[0]),
                     "number of patients": int(row[1])
                 }
             )

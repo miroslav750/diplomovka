@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<robot generated="20170501 20:46:26.814" generator="Robot 3.0.2 (Python 2.7.13 on win32)">
+<suite source="D:\CODE\DP\diplomovka\TEST\most_patients.robot" id="s1" name="Most Patients">
+<test id="s1-t1" name="Vykonanie requestu">
+<kw name="make request" library="resource">
+<arguments>
+<arg>mostPatients</arg>
+</arguments>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${request_url}" == "patientById"</arg>
+<arg>POST</arg>
+<arg>${patient_byID}</arg>
+</arguments>
+<status status="PASS" endtime="20170501 20:46:27.057" starttime="20170501 20:46:27.057"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${request_url}" == "patients"</arg>
+<arg>POST</arg>
+<arg>${patients}</arg>
+</arguments>
+<status status="PASS" endtime="20170501 20:46:27.057" starttime="20170501 20:46:27.057"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${request_url}" == "doctorById"</arg>
+<arg>POST</arg>
+<arg>${doctor_byID}</arg>
+</arguments>
+<status status="PASS" endtime="20170501 20:46:27.057" starttime="20170501 20:46:27.057"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${request_url}" == "payments"</arg>
+<arg>POST</arg>
+<arg>${payments}</arg>
+</arguments>
+<status status="PASS" endtime="20170501 20:46:27.057" starttime="20170501 20:46:27.057"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${request_url}" == "productById"</arg>
+<arg>POST</arg>
+<arg>${product_byID}</arg>
+</arguments>
+<status status="PASS" endtime="20170501 20:46:27.057" starttime="20170501 20:46:27.057"></status>
+</kw>
+<kw name="Run Keyword If" library="BuiltIn">
+<doc>Runs the given keyword with the given arguments, if ``condition`` is true.</doc>
+<arguments>
+<arg>"${request_url}" == "mostPatients"</arg>
+<arg>POST</arg>
+<arg>${most_patients}</arg>
+</arguments>
+<kw name="POST" library="HttpLibrary.HTTP">
+<doc>Issues a HTTP POST request.</doc>
+<arguments>
+<arg>${most_patients}</arg>
+</arguments>
+<msg timestamp="20170501 20:46:27.057" level="INFO">Host for next HTTP request set to 'localhost:8080'</msg>
+<msg timestamp="20170501 20:46:27.057" level="INFO">Scheme for next HTTP request set to 'http'</msg>
+<status status="PASS" endtime="20170501 20:46:29.319" starttime="20170501 20:46:27.057"></status>
+</kw>
+<status status="PASS" endtime="20170501 20:46:29.319" starttime="20170501 20:46:27.057"></status>
+</kw>
+<status status="PASS" endtime="20170501 20:46:29.319" starttime="20170501 20:46:27.057"></status>
+</kw>
+<status status="PASS" endtime="20170501 20:46:29.320" critical="yes" starttime="20170501 20:46:27.057"></status>
+</test>
+<test id="s1-t2" name="test na result code 200">
+<kw name="Response Status Code Should Equal" library="HttpLibrary.HTTP">
+<doc>Fails if the response status code of the previous request was not the</doc>
+<arguments>
+<arg>200</arg>
+</arguments>
+<status status="PASS" endtime="20170501 20:46:29.323" starttime="20170501 20:46:29.322"></status>
+</kw>
+<status status="PASS" endtime="20170501 20:46:29.323" critical="yes" starttime="20170501 20:46:29.321"></status>
+</test>
+<test id="s1-t3" name="test na bad result code 400">
+<kw name="Response Status Code Should Not Equal" library="HttpLibrary.HTTP">
+<doc>Fails if the response status code of the previous request is equal to</doc>
+<arguments>
+<arg>400</arg>
+</arguments>
+<status status="PASS" endtime="20170501 20:46:29.325" starttime="20170501 20:46:29.325"></status>
+</kw>
+<status status="PASS" endtime="20170501 20:46:29.325" critical="yes" starttime="20170501 20:46:29.324"></status>
+</test>
+<test id="s1-t4" name="test na spravnu odpoved v tele a validny JSON">
+<kw name="Get Response Body" library="HttpLibrary.HTTP">
+<doc>Get the response body.</doc>
+<assign>
+<var>${body}</var>
+</assign>
+<msg timestamp="20170501 20:46:29.328" level="INFO">${body} = {"number of patients": [{"CITY": "unidentified", "number of patients": 249468}, {"CITY": "Amsterdam", "number of patients": 56394}, {"CITY": "Antwerpen", "number of patients": 24988}, {"CITY": "AMSTER...</msg>
+<status status="PASS" endtime="20170501 20:46:29.328" starttime="20170501 20:46:29.327"></status>
+</kw>
+<kw name="Should Be Valid Json" library="HttpLibrary.HTTP">
+<doc>Attempts to parse `json_string` as JSON. Fails, if `json_string` is invalid JSON.</doc>
+<arguments>
+<arg>${body}</arg>
+</arguments>
+<status status="PASS" endtime="20170501 20:46:29.329" starttime="20170501 20:46:29.328"></status>
+</kw>
+<kw name="Json Value Should Equal" library="HttpLibrary.HTTP">
+<doc>Fails if the value of the target node of the JSON document</doc>
+<arguments>
+<arg>${body}</arg>
+<arg>/number of patients/0/CITY</arg>
+<arg>"unidentified"</arg>
+</arguments>
+<status status="PASS" endtime="20170501 20:46:29.330" starttime="20170501 20:46:29.330"></status>
+</kw>
+<kw name="Json Value Should Equal" library="HttpLibrary.HTTP">
+<doc>Fails if the value of the target node of the JSON document</doc>
+<arguments>
+<arg>${body}</arg>
+<arg>/number of patients/0/number of patients</arg>
+<arg>249468</arg>
+</arguments>
+<status status="PASS" endtime="20170501 20:46:29.331" starttime="20170501 20:46:29.331"></status>
+</kw>
+<kw name="Json Value Should Equal" library="HttpLibrary.HTTP">
+<doc>Fails if the value of the target node of the JSON document</doc>
+<arguments>
+<arg>${body}</arg>
+<arg>/number of patients/1/CITY</arg>
+<arg>"Amsterdam"</arg>
+</arguments>
+<status status="PASS" endtime="20170501 20:46:29.332" starttime="20170501 20:46:29.332"></status>
+</kw>
+<kw name="Json Value Should Equal" library="HttpLibrary.HTTP">
+<doc>Fails if the value of the target node of the JSON document</doc>
+<arguments>
+<arg>${body}</arg>
+<arg>/number of patients/1/number of patients</arg>
+<arg>56394</arg>
+</arguments>
+<status status="PASS" endtime="20170501 20:46:29.333" starttime="20170501 20:46:29.333"></status>
+</kw>
+<status status="PASS" endtime="20170501 20:46:29.334" critical="yes" starttime="20170501 20:46:29.327"></status>
+</test>
+<kw type="teardown" name="Close All Browsers" library="Selenium2Library">
+<doc>Closes all open browsers and resets the browser cache.</doc>
+<status status="PASS" endtime="20170501 20:46:29.336" starttime="20170501 20:46:29.336"></status>
+</kw>
+<doc>Automaticky test pre ziskanie zoznamu 100 miest s najvacsim poctom pacientov</doc>
+<status status="PASS" endtime="20170501 20:46:29.336" starttime="20170501 20:46:26.819"></status>
+</suite>
+<statistics>
+<total>
+<stat fail="0" pass="4">Critical Tests</stat>
+<stat fail="0" pass="4">All Tests</stat>
+</total>
+<tag>
+</tag>
+<suite>
+<stat fail="0" id="s1" name="Most Patients" pass="4">Most Patients</stat>
+</suite>
+</statistics>
+<errors>
+</errors>
+</robot>

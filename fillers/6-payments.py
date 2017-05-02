@@ -30,7 +30,7 @@ cur.execute("""CREATE TABLE stat.payments (
 # naplnenie tabulky, udaje z invoices_consultations
 rows = select(cur,
               'invoices_consultations.invoice_id, invoices_consultations.consultation_id,invoices_consultations.created_date',
-              'invoices_consultations limit 10000 offset 0')
+              'invoices_consultations')
 print "\nCREATE stat.payments: \n"
 
 for i, item in enumerate(rows):
