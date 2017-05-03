@@ -18,7 +18,7 @@ while True:
 
     # update stat.basic o GPS suradnice
     # pocet neprevedenych suradnic
-    count = cur.execute("select count(*) from stat.geo where found = False")
+    cur.execute("select count(*) from stat.geo where found = False")
     count = cur.fetchall()
     count = count[0][0] - 1
 

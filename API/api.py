@@ -13,7 +13,7 @@ def_error = "ospravedlnujeme sa nastala chyba"
 
 # - - - BASIC REQUESTY - - -
 
-# vrati yakladne udaje o pacientovi po [offset] zaznamov
+# vrati zakladne udaje o pacientovi po [offset] zaznamov
 @route("/patients/<limit>/<offset>", method='POST')
 def get_users(limit, offset):
     try:

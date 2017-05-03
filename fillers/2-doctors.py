@@ -38,40 +38,45 @@ for i, item in enumerate(rows):
     # nepotrebne ale len pre moje info ako ide vkladanie
     loading((len(rows)), i)
 
-# UPDATE doctors o GPS suradnice
-# pocet neprevedenych suradnic
-count = cur.execute("select count(*) from stat.doctors where found = False")
-count = cur.fetchall()
-count = count[0][0] - 1
+while True:
+    # UPDATE doctors o GPS suradnice
+    # pocet neprevedenych suradnic
+    cur.execute("select count(*) from stat.doctors where found = False")
+    count = cur.fetchall()
+    count = count[0][0] - 1
 
-rows = select(cur, 'postal_code, found', 'stat.doctors where found = False')
-print "\n UPDATE stat.doctors, adding GPS from postal codes. . . "
-geolocator = ArcGIS()
-i = 0
-maximum = 200
 
-if count < maximum:
-    maximum = count
 
-while i <= maximum:
-    found = rows[count][1]
-    if found is False:
-        time.sleep(1.1)
-        postal_code = rows[count][0]
-        location = geolocator.geocode(postal_code)
-        if location is not None:
-            latitude = location.latitude
-            longitude = location.longitude
-            update(cur, 'stat.doctors', 'latitude', latitude, 'postal_code', "'" + postal_code + "'")
-            update(cur, 'stat.doctors', 'longitude', longitude, 'postal_code', "'" + postal_code + "'")
-            update(cur, 'stat.doctors', 'found', True, 'postal_code', "'" + postal_code + "'")
-            i += 1
-            print "vkladam zaznam cislo: %s " % i
-        else:
-            update(cur, 'stat.doctors', 'found', True, 'postal_code', "'" + postal_code + "'")
-            i += 1
-            print "CHYBA pri zazname cislo: %s " % i
-        count -= 1
+    rows = select(cur, 'postal_code, found', 'stat.doctors where found = False')
+    print "\n UPDATE stat.doctors, adding GPS from postal codes. . . "
+    geolocator = ArcGIS()
+    i = 0
+    maximum = 200
 
-conn.commit()
+    if count < maximum:
+        maximum = count
+
+    while i <= maximum:
+        found = rows[count][1]
+        if found is False:
+            time.sleep(1.1)
+            postal_code = rows[count][0]
+            location = geolocator.geocode(postal_code)
+            if location is not None:
+                latitude = location.latitude
+                longitude = location.longitude
+                update(cur, 'stat.doctors', 'latitude', latitude, 'postal_code', "'" + postal_code + "'")
+                update(cur, 'stat.doctors', 'longitude', longitude, 'postal_code', "'" + postal_code + "'")
+                update(cur, 'stat.doctors', 'found', True, 'postal_code', "'" + postal_code + "'")
+                i += 1
+                print "vkladam zaznam cislo: %s " % i
+            else:
+                update(cur, 'stat.doctors', 'found', True, 'postal_code', "'" + postal_code + "'")
+                i += 1
+                print "CHYBA pri zazname cislo: %s " % i
+            count -= 1
+
+    conn.commit()
+    time.sleep(30)
+    print 'DALSIA ITERACIA'
 print("\n\n\n--- %s seconds ---" % (time.time() - start_time))
